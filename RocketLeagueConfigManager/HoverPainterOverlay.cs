@@ -47,7 +47,13 @@ namespace RocketLeagueConfigManager
 			// Yup. That's gonna be my solution. Suck it.
 			foreach (var drag in Form1.GetDragables())
 			{
-				if (Dragable.DoHighlightDragCompleted[(int) drag.Platform] > 0)
+				if (Dragable.DoHighlightDragCompleted[(int)drag.Platform] < 0)
+				{
+					e.Graphics.FillRectangle(Brushes.IndianRed, drag.Bounds);
+					e.Graphics.DrawImage(drag.Image, drag.Bounds);
+					e.Graphics.DrawRectangle(new Pen(Brushes.Red, 3f), drag.Bounds);
+				}
+				else if (Dragable.DoHighlightDragCompleted[(int) drag.Platform] > 0)
 				{
 					e.Graphics.FillRectangle(Brushes.LightGreen, drag.Bounds);
 					e.Graphics.DrawImage(drag.Image, drag.Bounds);

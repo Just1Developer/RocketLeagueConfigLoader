@@ -11,7 +11,7 @@ namespace RocketLeagueConfigManager
 	{
 		private const string VersionHeader = "[IniVersion]";
 
-		internal static void WriteEntireFile(string fromFile, string toFile)
+		internal static bool WriteEntireFile(string fromFile, string toFile)
 		{
 			fromFile = Path.GetNewFilePath(fromFile);
 			toFile = Path.GetNewFilePath(toFile);
@@ -19,10 +19,11 @@ namespace RocketLeagueConfigManager
 			if (!File.Exists(fromFile))
 			{
 				Logger.Log($"ERROR: File {fromFile} does not exist.");
-				return;
+				return false;
 			}
 
 			File.WriteAllText(toFile, File.ReadAllText(fromFile));
+			return true;
 		}
 
 		internal static string ExtractVersion(string fromFileEntirePath)
@@ -38,7 +39,7 @@ namespace RocketLeagueConfigManager
 			return version;
 		}
 
-		internal static void InsertVersionOnly(string fromFile, string toFile)
+		internal static bool InsertVersionOnly(string fromFile, string toFile)
 		{
 			fromFile = Path.GetNewFilePath(fromFile);
 			toFile = Path.GetNewFilePath(toFile);
@@ -46,12 +47,12 @@ namespace RocketLeagueConfigManager
 			if (!File.Exists(fromFile))
 			{
 				Logger.Log($"ERROR: File {fromFile} does not exist.");
-				return;
+				return false;
 			}
 			if (!File.Exists(toFile))
 			{
 				Logger.Log($"ERROR: File {toFile} does not exist.");
-				return;
+				return false;
 			}
 
 			string version = ExtractVersion(fromFile);
@@ -61,9 +62,10 @@ namespace RocketLeagueConfigManager
 			builder.AppendLine(VersionHeader);
 			builder.AppendLine(version);
 			File.WriteAllText(toFile, builder.ToString());
+			return true;
 		}
 
-		internal static void InsertContentOnly(string fromFile, string toFile)
+		internal static bool InsertContentOnly(string fromFile, string toFile)
 		{
 			fromFile = Path.GetNewFilePath(fromFile);
 			toFile = Path.GetNewFilePath(toFile);
@@ -71,12 +73,12 @@ namespace RocketLeagueConfigManager
 			if (!File.Exists(fromFile))
 			{
 				Logger.Log($"ERROR: File {fromFile} does not exist.");
-				return;
+				return false;
 			}
 			if (!File.Exists(toFile))
 			{
 				Logger.Log($"ERROR: File {toFile} does not exist.");
-				return;
+				return false;
 			}
 
 			string contentFrom = File.ReadAllText(fromFile);
@@ -87,6 +89,7 @@ namespace RocketLeagueConfigManager
 			builder.AppendLine(VersionHeader);
 			builder.AppendLine(version);
 			File.WriteAllText(toFile, builder.ToString());
+			return true;
 		}
 	}
 }

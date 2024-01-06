@@ -5,7 +5,7 @@
 		internal static bool IsHeld = false;
 		internal static Platform HeldPlatform = Platform.RocketLeague;
 		internal static int[] DoHighlightDragCompleted = new int[3];	// 3 Platforms
-		private const int HighlightTimeMS = 650;
+		private const int HighlightTimeMS = 450;
 		
 		private readonly Image _image;
 		internal Platform Platform;
@@ -42,6 +42,8 @@
 			if (HeldPlatform == Platform) return;
 			// Dropped over a different Platform
 
+			bool success = false;
+
 			if (HeldPlatform == Platform.RocketLeague)
 			{
 				string fromFile = Path.CONFIG_FILE_NAME;
@@ -49,9 +51,10 @@
 				var allFilesTo = Path.AllFilenamesOf(Platform);
 				foreach (var toFile in allFilesTo)
 				{
-					ConfigurationWriter.InsertVersionOnly(fromFile, toFile);
+					bool result = ConfigurationWriter.InsertVersionOnly(fromFile, toFile);
+					if (!success) success = result;
 				}
-				HighlightDrag(Platform);
+				HighlightDrag(Platform, success);
 				return;
 			}
 
@@ -63,7 +66,8 @@
 				{
 					string fromFile = Path.GetFileName(HeldPlatform, flag);
 					string toFile = allFilesTo[flag];
-					ConfigurationWriter.InsertContentOnly(fromFile, toFile);
+					bool result = ConfigurationWriter.InsertContentOnly(fromFile, toFile);
+					if (!success) success = result;
 				}
 			}
 			else
@@ -71,13 +75,19 @@
 			{
 				string fromFile = Path.GetFileName(HeldPlatform, Form1.GetSettingFlags());
 				string toFile = Path.CONFIG_FILE_NAME;
-				ConfigurationWriter.WriteEntireFile(fromFile, toFile);
+				success = ConfigurationWriter.WriteEntireFile(fromFile, toFile);
 			}
-			HighlightDrag(Platform);
+			HighlightDrag(Platform, success);
 		}
 
-		static void HighlightDrag(Platform platform) => HighlightDrag((int)platform);
-		static void HighlightDrag(int platform)
+		// We are just gonna ignore that this cancels out for a time
+
+		static void HighlightDrag(Platform platform, bool success = true)
+		{
+			if(success) HighlightDragGreen((int)platform);
+			else HighlightDragRed((int)platform);
+		}
+		static void HighlightDragGreen(int platform)
 		{
 			DoHighlightDragCompleted[platform]++;
 			// Perform -- 1 second later
@@ -85,6 +95,16 @@
 			{
 				Thread.Sleep(HighlightTimeMS);
 				DoHighlightDragCompleted[platform]--;
+			}).Start();
+		}
+		static void HighlightDragRed(int platform)
+		{
+			DoHighlightDragCompleted[platform]--;
+			// Perform -- 1 second later
+			new Thread(() =>
+			{
+				Thread.Sleep(HighlightTimeMS);
+				DoHighlightDragCompleted[platform]++;
 			}).Start();
 		}
 
