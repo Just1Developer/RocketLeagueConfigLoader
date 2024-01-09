@@ -10,6 +10,7 @@ namespace RocketLeagueConfigManager
 		{
 			InitializeComponent();
 			instance = this;
+			this.CheckForIllegalCrossThreadCalls = false;	// For Invalidating
 
 			this.DoubleBuffered = true;
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -124,58 +125,3 @@ namespace RocketLeagueConfigManager
 		}
 	}
 }
-
-
-
-/*
-if (!MouseHoverImageHandler.HasImage)
-{
-	if(Controls.Contains(HoverBox)) Controls.Remove(HoverBox);
-	return;
-}
-
-HoverBox.Location = new Point(e.Location.X - HoverBox.Size.Width / 2,
-	e.Location.Y - HoverBox.Size.Height / 2);
-MouseLoc = new Point(e.Location.X - HoverBox.Size.Width / 2,
-	e.Location.Y - HoverBox.Size.Height / 2);
-if (!Controls.Contains(HoverBox)) Controls.Add(HoverBox);
-*/
-
-//e.Graphics.DrawImage(MouseHoverImageHandler.Image, new Rectangle(MouseLoc.X, MouseLoc.Y, HOVER_SIZE, HOVER_SIZE));
-
-
-//instance.HoverBox.Image = MouseHoverImageHandler.Image;
-
-/*
-private PictureBox HoverBox = new() { SizeMode = PictureBoxSizeMode.Normal, Size = new Size(HOVER_SIZE, HOVER_SIZE) };
-private Image? HoverImage = null;
-*/
-
-
-/*
- *
- *
-
-   public float Opacity { get; set; } = 0.6f; // Default opacity is 60%
-   protected override void OnPaint(PaintEventArgs e)
-   {
-   	base.OnPaint(e);
-
-   	if (!MouseHoverImageHandler.HasImage) return;
-
-   	Image? _image = MouseHoverImageHandler.Image;
-   	if (_image == null) throw new NullReferenceException();
-   	// Set the transparency
-   	ColorMatrix colorMatrix = new ColorMatrix
-   	{
-   		Matrix33 = Opacity
-   	};
-   	ImageAttributes imageAttributes = new ImageAttributes();
-   	imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-   	// Draw the image with the opacity
-   	Rectangle drawRect = new Rectangle(MouseLoc.X, MouseLoc.Y, HOVER_SIZE, HOVER_SIZE);
-   	e.Graphics.DrawImage(_image, drawRect, 0, 0, _image.Width, _image.Height, GraphicsUnit.Pixel, imageAttributes);
-   }
- *
- */

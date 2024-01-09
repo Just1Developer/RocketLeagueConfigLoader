@@ -17,12 +17,10 @@ namespace RocketLeagueConfigManager
 }
 
 /*
- * Print:
- *
-   // Write All Images to the console
-   string downloads = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/../Downloads/";
-   ImageHandler.PrintImageString(downloads + "Steam_icon_logo.png");
-   ImageHandler.PrintImageString(downloads + "Epic_Games_logo.png");
-   ImageHandler.PrintImageString(downloads + "Rocket_League_logo.png");
-	ImageHandler.PrintImageString(@"E:\Coding\C#\Forms\RocketLeagueConfigManager\RocketLeagueConfigManager\icon.png");
+ * Print an Image:
+ * 1. Get Path (of images)
+		string downloads = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/../Downloads/";
+ * 2. Print image as string
+		ImageHandler.PrintImageString(downloads + "Steam_icon_logo.png");
+ * 3. done.
  */

@@ -5,7 +5,7 @@
 		internal static bool IsHeld = false;
 		internal static Platform HeldPlatform = Platform.RocketLeague;
 		internal static int[] DoHighlightDragCompleted = new int[3];	// 3 Platforms
-		private const int HighlightTimeMS = 450;
+		private const int HighlightTimeMS = 650;
 		
 		private readonly Image _image;
 		internal Platform Platform;
@@ -95,6 +95,7 @@
 			{
 				Thread.Sleep(HighlightTimeMS);
 				DoHighlightDragCompleted[platform]--;
+				Form1.InvalidateHover();
 			}).Start();
 		}
 		static void HighlightDragRed(int platform)
@@ -105,6 +106,7 @@
 			{
 				Thread.Sleep(HighlightTimeMS);
 				DoHighlightDragCompleted[platform]++;
+				Form1.InvalidateHover();
 			}).Start();
 		}
 
@@ -116,36 +118,3 @@
 		}
 	}
 }
-
-
-/*
- *
- *
- *		internal Dragable(Platform platform, Point Location)
-   {
-   	//this.DoubleBuffered = true;
-   	//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-
-   	_image = new PictureBox()
-   	{
-   		Image = ImageHandler.GetImageOf(platform),
-   		Dock = DockStyle.Fill,
-   		SizeMode = PictureBoxSizeMode.Zoom
-   	};
-
-   	this.Size = new Size(140, 140);
-
-   	this.Controls.Add(_image);
-   	this.Size = _image.Size;
-   	this.Location = Location;
-
-   	this._image.MouseDown += OnMouseDown;
-   	this._image.MouseUp += OnMouseUp;
-   	this._image.MouseMove += (s, e) =>
-   	{
-   		Form1.MouseMoved(this, e);
-   		Invalidate();
-   	};
-   }
- *
- */

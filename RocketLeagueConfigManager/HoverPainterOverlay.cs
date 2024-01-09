@@ -14,6 +14,7 @@ namespace RocketLeagueConfigManager
 			this.DoubleBuffered = true;
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			this.Dock = DockStyle.Fill;
+			this.CheckForIllegalCrossThreadCalls = false;	// For Invalidating
 			
 			// MouseMove detection is relevant here.
 			this.MouseMove += (s, e) => Form1.MouseMoved(this, e);
